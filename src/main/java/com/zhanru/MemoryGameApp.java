@@ -15,12 +15,10 @@ import javafx.stage.Stage;
  */
 
 public class MemoryGameApp extends Application {
-
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public void start(Stage stage) {
-        LOGGER.debug("Start Memory Game");
         GamePlayController controller = new GamePlayController();
         stage.setTitle("Memory Game");
         stage.setScene(new Scene(controller.getView(), 640, 520));

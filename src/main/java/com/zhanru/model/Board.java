@@ -9,17 +9,16 @@ import java.util.List;
 
 public class Board {
     private static final Logger LOGGER = LogManager.getLogger();
+
     private final List<Card> cards = new ArrayList<>();
 
     public Board(int numberOfPairs) {
-        LOGGER.debug("Creating board with {} pairs", numberOfPairs);
         for (int pairId = 1; pairId <= numberOfPairs; pairId++) {
             cards.add(new Card(pairId));
             cards.add(new Card(pairId));
         }
 
-        Collections.shuffle(cards);
-        LOGGER.debug("Board created with {} cards", cards.size());
+        // Collections.shuffle(cards);
     }
 
     public List<Card> getCards() {
@@ -28,7 +27,6 @@ public class Board {
 
     public boolean allCardsMatched() {
         boolean result = cards.stream().allMatch(Card::isMatched);
-        LOGGER.debug("Checking board completion; complete={}", result);
         return result;
     }
 }
