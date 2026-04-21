@@ -4,5 +4,7 @@
 /Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/com/zhanru/model/Board.java
 /Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/com/zhanru/model/Card.java
 /Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/com/zhanru/model/GameModel.java
+/Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/com/zhanru/model/MoveBasedScoring.java
+/Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/com/zhanru/model/ScoringStrategy.java
 /Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/com/zhanru/view/GamePlayView.java
 /Users/ruzhan/computer_science/Goldsmiths/extended_object_oriented/week7/memory-game/src/main/java/module-info.java

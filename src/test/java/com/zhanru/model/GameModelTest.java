@@ -1,5 +1,6 @@
 package com.zhanru.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -55,5 +56,44 @@ public class GameModelTest {
         assertTrue(secondCard.isMatched());
 
         assertTrue(model.isGameOver());
+    }
+
+    @Test
+    @DisplayName("selectCard(): should count one move after two cards are selected")
+    void countsMoveAfterPairAttempt() {
+        Board board = new Board(1);
+        GameModel model = new GameModel(board);
+
+        model.selectCard(board.getCards().get(0));
+        model.selectCard(board.getCards().get(1));
+
+        assertEquals(1, model.getMoves());
+    }
+
+    @Test
+    @DisplayName("selectedCard(): should update score after a match")
+    void updatesScoreAfterMatch() {
+        Board board = new Board(1);
+        GameModel model = new GameModel(board);
+
+        model.selectCard(board.getCards().get(0));
+        model.selectCard(board.getCards().get(1));
+
+        assertTrue(model.getScore() > 0);
+    }
+
+    @Test
+    @DisplayName("getMatchedPairs(): should report matched pair progress")
+    void reportsMatchedPairProgress() {
+        Board board = new Board(1);
+        GameModel model = new GameModel(board);
+
+        assertEquals(0, model.getMatchedPairs());
+        assertEquals(1, model.getTotalPairs());
+
+        model.selectCard(board.getCards().get(0));
+        model.selectCard(board.getCards().get(1));
+
+        assertEquals(1, model.getMatchedPairs());
     }
 }

@@ -23,22 +23,33 @@ public class GamePlayController {
 
         view.setCardClickHandler(card -> {
             model.selectCard(card);
-            view.refresh();
+            refreshView();
 
             if (model.hasPendingMismatch()) {
                 PauseTransition pause = new PauseTransition(Duration.seconds(1));
                 pause.setOnFinished(_ -> {
                     model.hidePendingMismatch();
-                    view.refresh();
+                    refreshView();
                 });
                 pause.play();
             }
         });
         
-        view.refresh();
+        refreshView();
     }
 
     public Parent getView() {
         return view.getRoot();
+    }
+
+    private void refreshView() {
+        view.refresh();
+        view.updateStatus(
+            model.getScore(),
+            model.getMoves(),
+            model.getMatchedPairs(),
+            model.getTotalPairs(),
+            model.isGameOver()
+        );
     }
 }

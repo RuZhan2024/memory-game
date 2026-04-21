@@ -14,6 +14,9 @@ public class GameModel {
     private Card pendingMismatchB;
     private boolean gameOver;
 
+    private final ScoringStrategy scoring = new MoveBasedScoring(2, 1);
+    private int moves;
+
     public GameModel(Board board) {
         this.board = board;
 
@@ -21,26 +24,29 @@ public class GameModel {
 
     public void selectCard(Card card) {
 
-        if (gameOver || hasPendingMismatch() || card.isMatched() || card.isFaceUp()) {
+        if (this.gameOver || hasPendingMismatch() || card.isMatched() || card.isFaceUp()) {
             return;
         }
         card.flipUp();
 
-        if (firstSelection == null) {
-            firstSelection = card;
+        if (this.firstSelection == null) {
+            this.firstSelection = card;
             return;
         }
 
-        if (firstSelection.matches(card)) {
-            firstSelection.markMatched();
+        boolean matched = this.firstSelection.matches(card);
+        this.moves ++;
+        scoring.updateScore(matched);
+        if (matched) {
+            this.firstSelection.markMatched();
             card.markMatched();
         } else {
-            pendingMismatchA = firstSelection;
-            pendingMismatchB = card;
+            this.pendingMismatchA = this.firstSelection;
+            this.pendingMismatchB = card;
         }
 
-        firstSelection = null;
-        gameOver = board.allCardsMatched();
+        this.firstSelection = null;
+        this.gameOver = board.allCardsMatched();
     }
 
     public boolean hasPendingMismatch() {
@@ -51,18 +57,34 @@ public class GameModel {
         if (!hasPendingMismatch())
             return;
 
-        pendingMismatchA.flipDown();
-        pendingMismatchB.flipDown();
-        pendingMismatchA = null;
-        pendingMismatchB = null;
+        this.pendingMismatchA.flipDown();
+        this.pendingMismatchB.flipDown();
+        this.pendingMismatchA = null;
+        this.pendingMismatchB = null;
     }
 
     public List<Card> getCards() {
         return board.getCards();
     }
 
+    public int getScore() {
+        return scoring.getScore();
+    }
+
+    public int getMoves() {
+        return this.moves;
+    }
+
+    public int getMatchedPairs() {
+        return (int)board.getCards().stream().filter(Card::isMatched).count() / 2;
+    }
+
+    public int getTotalPairs() {
+        return board.getCards().size() / 2;
+    }
+
     public boolean isGameOver() {
-        LOGGER.debug("Is Game Over: {}", gameOver);
-        return gameOver;
+        LOGGER.debug("Is Game Over: {}", this.gameOver);
+        return this.gameOver;
     }
 }
